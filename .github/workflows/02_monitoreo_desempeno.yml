@@ -1,0 +1,25 @@
+name: 02 - Monitoreo de Desempeño
+
+on:
+  workflow_dispatch:
+    inputs:
+      archivo_lote:
+        description: 'Lote evaluado previamente'
+        required: true
+        default: 'data/lote_mes_1_inferencia.csv'
+      archivo_ground_truth:
+        description: 'Archivo con la realidad (Ground Truth)'
+        required: true
+        default: 'data/ground_truth_mes_1.csv'
+
+jobs:
+  monitoreo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python scripts/predict_batch.py ${{ github.event.inputs.archivo_lote }}
+      - run: python scripts/monitor_performance.py ${{ github.event.inputs.archivo_ground_truth }}

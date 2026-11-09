@@ -1,0 +1,24 @@
+name: 01 - Inferencia Batch
+
+on:
+  workflow_dispatch:
+    inputs:
+      archivo_lote:
+        description: 'Lote a calificar'
+        required: true
+        default: 'data/lote_mes_1_inferencia.csv'
+
+jobs:
+  inferencia:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - run: python scripts/predict_batch.py ${{ github.event.inputs.archivo_lote }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: calificaciones-lote
+          path: output/calificaciones_lote.csv
