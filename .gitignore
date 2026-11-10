@@ -1,0 +1,12 @@
+# Python & Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Resultados temporales de inferencia
+output/
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
